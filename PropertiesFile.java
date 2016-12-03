@@ -26,6 +26,11 @@ public class PropertiesFile {
      */
     ArrayList<SpeciesProperties> species = new ArrayList<>();
 
+    /**
+     * Mountains to add
+     */
+    ArrayList<Mountain> mountains = new ArrayList<>();
+    
     public PropertiesFile(String path) {
         Scanner sc = null;
         try {
@@ -56,6 +61,7 @@ public class PropertiesFile {
                         int y1 = lsc.nextInt();
                         int x2 = lsc.nextInt();
                         int y2 = lsc.nextInt();
+                        mountains.add(new Mountain(x1, y1, x2, y2));
                     }
                     lsc.close();
                 }

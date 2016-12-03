@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  * @author Ezekiel Elin
  * @version September 29, 2016
@@ -7,7 +8,7 @@ class Cell {
      * Animal this cell holds
      */
     private Animal animal = null;
-    
+
     /**
      * Plant this cell holds
      */
@@ -22,7 +23,7 @@ class Cell {
      * Park this cell resides in
      */
     private Park park;
-    
+
     /**
      * Whether this cell is a mountain
      */
@@ -71,33 +72,33 @@ class Cell {
         Point currentLocation = location.copy();
         switch (direction) {
             case UP:
-                currentLocation.y -= 1;
-                break;
+            currentLocation.y -= 1;
+            break;
             case DOWN:
-                currentLocation.y += 1;
-                break;
+            currentLocation.y += 1;
+            break;
             case RIGHT:
-                currentLocation.x += 1;
-                break;
+            currentLocation.x += 1;
+            break;
             case LEFT:
-                currentLocation.x -= 1;
-                break;
+            currentLocation.x -= 1;
+            break;
             case UPRIGHT:
-                currentLocation.y -= 1;
-                currentLocation.x += 1;
-                break;
+            currentLocation.y -= 1;
+            currentLocation.x += 1;
+            break;
             case UPLEFT:
-                currentLocation.y -= 1;
-                currentLocation.x -= 1;
-                break;
+            currentLocation.y -= 1;
+            currentLocation.x -= 1;
+            break;
             case DOWNRIGHT:
-                currentLocation.y += 1;
-                currentLocation.x += 1;
-                break;
+            currentLocation.y += 1;
+            currentLocation.x += 1;
+            break;
             case DOWNLEFT:
-                currentLocation.y += 1;
-                currentLocation.x -= 1;
-                break;
+            currentLocation.y += 1;
+            currentLocation.x -= 1;
+            break;
         }
         return park.getCell(currentLocation);
     }
@@ -109,7 +110,7 @@ class Cell {
     public Park getPark() {
         return this.park;
     }
-    
+
     /**
      * Set the plant field in this cell
      * Updates the plant's cell field automatically
@@ -121,7 +122,7 @@ class Cell {
             plant.setCell(this);
         }
     }
-    
+
     /**
      * Remove the plant from the cell
      */
@@ -148,7 +149,7 @@ class Cell {
             animal.setCell(this);
         }
     }
-    
+
     /**
      * Remove the animal from this cell
      */
@@ -179,12 +180,145 @@ class Cell {
     public boolean hasAnimal() {
         return animal != null;
     }
-    
+
     /**
      * Check whether this cell is a mountain
      */
     public boolean isMountain() {
         return this.isMountain();
+    }
+
+    /**
+     * Make this cell a mountain
+     */
+    public void setMountain(boolean b) {
+        if (b) {
+            this.animal = null;
+            this.plant = null;
+        }
+        this.isMountain = b;
+    }
+
+    /**
+     * Fetch all cells within a certain range
+     * @param int range to fetch
+     * @param boolean whether animals obstruct
+     */
+    public ArrayList<Cell> getLOSCells(int range, boolean animalsObstruct) {
+        range += 1;
+        ArrayList<Cell> valids = new ArrayList<Cell>();
+        Point current = this.getLocation();
+        for(int i = current.x - range + 1; i < current.x + range; i++) {
+            if (i >= 0 && i < this.getPark().width) {
+                for(int j = current.y - range + 1; j < current.y + range; j++) {
+                    if (j >= 0 && j < this.getPark().height) {
+                        Point p = new Point(i, j);
+
+                        /* Line Algorithm */
+
+                        double x1 = (double)current.x;
+                        double x2 = (double)p.x;
+                        double y1 = (double)current.y;
+                        double y2 = (double)p.y;
+
+                        boolean s = false;
+
+                        if (Math.abs(x1 - x2) < Math.abs(y1 - y2)) {
+                            /* Reverse the line */
+                            double tx1 = x1;
+                            x1 = y1;
+                            y1 = tx1;
+
+                            double tx2 = x2;
+                            x2 = y2;
+                            y2 = tx2;
+
+                            s = true;
+                        }
+
+                        if (x1 > x2) {
+                            double tx1 = x1;
+                            x1 = x2;
+                            x2 = tx1;
+
+                            double ty1 = y1;
+                            y1 = y2;
+                            y2 = ty1;
+                        }
+
+                        Cell previous = null;
+                        boolean success = true;
+                        for(double x = x1; x <= x2; x += 1) {
+                            double t = (x - x1) / (x2 - x1);
+                            double y = y1 * (1.0 - t) + y2 * t;
+
+                            Cell currC = null;
+                            if (s) {
+                                currC = getPark().getCell(new Point((int)y, (int)x));
+                            } else {
+                                currC = getPark().getCell(new Point((int)x, (int)y));
+                            }
+
+                            if (currC == previous) {
+                                continue;
+                            }
+
+                            if (currC.isMountain() && (!animalsObstruct || currC.getAnimal() == null)) {
+                                success = false;
+                            } else if (previous != null) {
+                                /* check there's a path through mountain range */
+                                Point currCLoc = currC.getLocation();
+                                Point prevLoc = previous.getLocation();
+                                try {
+                                    if (prevLoc.x == currCLoc.x - 1 && prevLoc.y == currCLoc.y - 1) {
+                                        if (getPark().isMountain(new Point(currCLoc.x, currCLoc.y - 1)) && getPark().isMountain(new Point(currCLoc.x - 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                        if (animalsObstruct && getPark().hasAnimal(new Point(currCLoc.x, currCLoc.y - 1)) && getPark().hasAnimal(new Point(currCLoc.x - 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                    }
+                                    if (prevLoc.x == currCLoc.x - 1 && prevLoc.y == currCLoc.y + 1) {
+                                        if (getPark().isMountain(new Point(currCLoc.x, currCLoc.y + 1)) && getPark().isMountain(new Point(currCLoc.x - 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                        if (animalsObstruct && getPark().hasAnimal(new Point(currCLoc.x, currCLoc.y + 1)) && getPark().hasAnimal(new Point(currCLoc.x - 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                    }
+                                    if (prevLoc.x == currCLoc.x + 1 && prevLoc.y == currCLoc.y - 1) {
+                                        if (getPark().isMountain(new Point(currCLoc.x, currCLoc.y - 1)) && getPark().isMountain(new Point(currCLoc.x + 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                        if (animalsObstruct && getPark().hasAnimal(new Point(currCLoc.x, currCLoc.y - 1)) && getPark().hasAnimal(new Point(currCLoc.x + 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                    }
+                                    if (prevLoc.x == currCLoc.x + 1 && prevLoc.y == currCLoc.y + 1) {
+                                        if (getPark().isMountain(new Point(currCLoc.x, currCLoc.y + 1)) && getPark().isMountain(new Point(currCLoc.x + 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                        if (animalsObstruct && getPark().hasAnimal(new Point(currCLoc.x, currCLoc.y + 1)) && getPark().hasAnimal(new Point(currCLoc.x + 1, currCLoc.y))) {
+                                            success = false;
+                                        }
+                                    }
+                                } catch(Exception e) {}
+                            }
+
+                            previous = currC;
+                        }
+
+                        if (success) {
+                            valids.add(getPark().getCell(new Point(p.x, p.y)));
+                        }
+
+                        /* End Line Algorithm */
+
+                    }
+                }
+            }
+        }
+        return valids;
     }
 
     /**

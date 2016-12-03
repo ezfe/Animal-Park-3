@@ -20,6 +20,11 @@ public class Controller {
         
         Park park = new Park(config.width, config.height, config.light, wheel);
         
+        for (int i = 0; i < config.mountains.size(); i += 1) {
+            Mountain m = config.mountains.get(i);
+            m.populate(park);
+        }
+       
         for (int z = 0; z < config.species.size(); z += 1) {
             SpeciesProperties itemProperties = config.species.get(z);
             //System.out.println("Doing " + itemProperties.name);
