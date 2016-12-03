@@ -3,9 +3,9 @@
  * @version September 29, 2016
  */
 class Cell {
-	/**
-	 * Animal this cell holds
-	 */
+    /**
+     * Animal this cell holds
+     */
     private Animal animal = null;
     
     /**
@@ -22,6 +22,11 @@ class Cell {
      * Park this cell resides in
      */
     private Park park;
+    
+    /**
+     * Whether this cell is a mountain
+     */
+    private boolean isMountain = false;
 
     /**
      * Initialize this cell
@@ -111,8 +116,10 @@ class Cell {
      * @param p plant
      */
     public void setPlant(Plant p) {
-        plant = p;
-        plant.setCell(this);
+        if (!this.isMountain()) {
+            plant = p;
+            plant.setCell(this);
+        }
     }
     
     /**
@@ -136,8 +143,10 @@ class Cell {
      * @param a animal
      */
     public void setAnimal(Animal a) {
-        animal = a;
-        animal.setCell(this);
+        if (!this.isMountain()) {
+            animal = a;
+            animal.setCell(this);
+        }
     }
     
     /**
@@ -169,6 +178,13 @@ class Cell {
      */
     public boolean hasAnimal() {
         return animal != null;
+    }
+    
+    /**
+     * Check whether this cell is a mountain
+     */
+    public boolean isMountain() {
+        return this.isMountain();
     }
 
     /**

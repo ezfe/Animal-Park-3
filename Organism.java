@@ -299,7 +299,7 @@ public abstract class Organism {
         for (int i = 0; i < NEIGHBOR_DIRECTIONS.size(); i += 1) {
             //System.out.println("Direction: " + directions.get(i));
             Cell n = c.getNeighbor(NEIGHBOR_DIRECTIONS.get(i));
-            if (n != null) {
+            if (n != null && !n.isMountain()) {
                 if (a instanceof Animal && !n.hasAnimal()) {
                     n.setAnimal((Animal) a);
                     this.energy /= 2;
