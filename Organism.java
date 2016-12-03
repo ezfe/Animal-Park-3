@@ -54,10 +54,25 @@ public abstract class Organism {
     public final int MAX_ENERGY;
     
     /**
+     * Distance the organism can move
+     */
+    public final int MOVE_RANGE;
+    
+    /**
+     * Distance the organism can see
+     */
+    public final int DETECT_RANGE;
+    
+    /**
      * The cost per tick to live
      * Deducted at the END of the tick
      */
     public final int LIVING_COST;
+    
+    /**
+     * Threshold for AI-esque movement
+     */
+    public final int HUNGER_THRESHOLD;
     
     /*
      * Directions this organism can reproduce or eat in, relative to its current locations
@@ -91,8 +106,10 @@ public abstract class Organism {
         this.MAX_TICK_COUNT = properties.rollDeath(this.wheel);
         this.REPRODUCE_THRESHOLD = properties.reproduceThreshold;
         this.MAX_ENERGY = properties.maxEnergy;
+        this.MOVE_RANGE = properties.moveRange;
+        this.DETECT_RANGE = properties.detectRange;
         this.LIVING_COST = properties.livingCost;
-        
+        this.HUNGER_THRESHOLD = properties.hungerThreshold;
         this.originalProperties = properties;
     }
     
