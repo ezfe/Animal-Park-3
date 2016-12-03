@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=properties\ w
+comment0.target=Plant(SpeciesProperties,\ Wheel)
+comment1.params=
+comment1.target=Plant\ copy()
+comment2.params=
+comment2.target=Plant\ createOffspring()
+numComments=3

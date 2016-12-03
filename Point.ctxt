@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=x\ y
+comment0.target=Point(int,\ int)
+comment1.params=
+comment1.target=Point\ copy()
+comment1.text=\n\ Copy\ the\ point\n\ @return\ point\ copy\n
+comment2.params=
+comment2.target=int\ hashCode()
+comment3.params=o
+comment3.target=boolean\ equals(java.lang.Object)
+comment4.params=
+comment4.target=java.lang.String\ toString()
+comment5.params=maxx\ maxy
+comment5.target=Point\ randomPoint(int,\ int)
+comment5.text=\n\ Generate\ a\ random\ point\n\ @param\ maxx\ max\ x\ locatoin\n\ @param\ maxy\ max\ y\ location\n\ @return\ point\ random\ point\n
+numComments=6

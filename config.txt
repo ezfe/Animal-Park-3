@@ -1,0 +1,7 @@
+size 30 20
+light 5
+species wheat vegetable h light 300,5,20 10.1,5.1 20 50 2
+species banana fruit b light 100,10,25 8.9,2.5 10 45 4
+species cow herbivore c wheat,banana 70,3,30 15.3,4.2 50 60 5
+species wolf carnivore w cow 10,2,40 35.2,3.0 55 70 7
+species bear omnivore g cow,banana 10,2,40 40,4.5 60 90 8

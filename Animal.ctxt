@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=properties\ w
+comment0.target=Animal(SpeciesProperties,\ Wheel)
+comment1.params=
+comment1.target=boolean\ randomMove()
+comment2.params=
+comment2.target=Animal\ copy()
+comment3.params=
+comment3.target=Animal\ createOffspring()
+numComments=4

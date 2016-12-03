@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Wheel()
+comment1.params=seed
+comment1.target=Wheel(int)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Wheel\n
+comment2.params=
+comment2.target=int\ spin()
+comment2.text=\n\ Generate\ a\ random\ number\ from\ [0,\ Integer.MAX_VALUE)\n
+comment3.params=max
+comment3.target=int\ spin(int)
+comment3.text=\n\ Generate\ a\ random\ number\ from\ [0,\ max]\n
+comment4.params=median\ std
+comment4.target=double\ gaussian(double,\ double)
+comment4.text=\n\ Generate\ a\ random\ number\ with\ a\ gaussian\ distribution\n\ @param\ median\ median\ result\n\ @param\ std\ standard\ deviation\n\ @return\ double\ resulting\ number\n
+numComments=5

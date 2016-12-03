@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.params=type\ species
+comment0.target=EventLogItem(EventLogItem.EventLogType,\ java.lang.String)
+numComments=1

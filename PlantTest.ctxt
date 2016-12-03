@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ setUp()
+comment0.text=\n\ Sets\ up\ the\ test\ fixture.\n\n\ Called\ before\ every\ test\ case\ method.\n
+comment1.params=
+comment1.target=void\ testCopy()
+comment2.params=
+comment2.target=void\ testOffSpring()
+comment3.params=
+comment3.target=void\ testCell()
+comment4.params=
+comment4.target=void\ testEnergy()
+comment5.params=
+comment5.target=void\ testMaxEnergy()
+comment6.params=
+comment6.target=void\ testMinEnergy()
+numComments=7
