@@ -5,4 +5,4 @@ light 5
 #species cow herbivore c wheat,banana 70,3,30 15.3,4.2 50 60 5
 #species wolf carnivore w cow 10,2,40 35.2,3.0 55 70 7
 #species bear omnivore g cow,banana 10,2,40 40,4.5 60 90 8
-mountain 2,3,4,5
+mountain 2,3,4,6

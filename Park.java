@@ -257,15 +257,19 @@ public class Park  {
             b.append("|");
             for (int x = 0; x < width; x += 1) {
                 Cell c = this.getCell(new Point(x, y));
-                if (c.getAnimal() != null) {
-                    b.append(c.getAnimal().SYMBOL);
+                if (c.isMountain()) {
+                    b.append("MT");
                 } else {
-                    b.append(" ");
-                }
-                if (c.getPlant() != null) {
-                    b.append(c.getPlant().SYMBOL);
-                } else {
-                    b.append(" ");
+                    if (c.getAnimal() != null) {
+                        b.append(c.getAnimal().SYMBOL);
+                    } else {
+                        b.append(" ");
+                    }
+                    if (c.getPlant() != null) {
+                        b.append(c.getPlant().SYMBOL);
+                    } else {
+                        b.append(" ");
+                    }
                 }
                 b.append("|");
             }

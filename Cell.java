@@ -185,7 +185,7 @@ class Cell {
      * Check whether this cell is a mountain
      */
     public boolean isMountain() {
-        return this.isMountain();
+        return this.isMountain;
     }
 
     /**
@@ -335,6 +335,9 @@ class Cell {
 
     @Override
     public String toString() {
+        if (this.isMountain) {
+            return "{MNTAIN}";
+        }
         return "{P" + (this.plant == null ? "_" : ("`"+this.plant.toString()+"`")) + ", " + "A" + (this.animal == null ? "_" : ("`"+this.animal.toString()+"`")) + "}";
     }
 }

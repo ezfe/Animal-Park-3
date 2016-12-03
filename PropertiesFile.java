@@ -57,17 +57,18 @@ public class PropertiesFile {
                         SpeciesProperties sp = new SpeciesProperties(line);
                         species.add(sp);
                     } else if (keyword.equals("mountain")) {
-                        int x1 = lsc.nextInt();
-                        int y1 = lsc.nextInt();
-                        int x2 = lsc.nextInt();
-                        int y2 = lsc.nextInt();
+                        String[] points = lsc.next().split(",");
+                        int x1 = Integer.parseInt(points[0]);
+                        int y1 = Integer.parseInt(points[1]);
+                        int x2 = Integer.parseInt(points[2]);
+                        int y2 = Integer.parseInt(points[3]);
                         mountains.add(new Mountain(x1, y1, x2, y2));
                     }
                     lsc.close();
                 }
             }
         } catch (Exception e) {
-            System.out.println("ConfigError: Unable to load file");
+            System.out.println("ConfigError: Unable to load file: " + e);
         } finally {
             if (sc != null) {
                 sc.close();
