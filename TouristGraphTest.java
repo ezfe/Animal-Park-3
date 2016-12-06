@@ -46,5 +46,6 @@ public class TouristGraphTest {
 
         assertTrue("Entrance node != b", graph.entranceNodes().get(0).equals(2));
         assertTrue("Entrance nodes >1 found", graph.entranceNodes().size() == 1);
+        
     }
 }
