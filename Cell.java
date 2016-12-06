@@ -15,6 +15,11 @@ class Cell {
     private Plant plant = null;
 
     /**
+     * Key of graph node that is @ this cell
+     */
+    private Integer tnode = null;
+
+    /**
      * Location of this cell
      */
     private Point location;
@@ -197,6 +202,32 @@ class Cell {
             this.plant = null;
         }
         this.isMountain = b;
+    }
+
+    /**
+     * Set this cell's graph node
+     * @param int node key
+     */
+    public void setGraphNode(int key) {
+        this.setGraphNode(key, true);
+    }
+
+    /**
+     * Set this cell's graph node
+     * @param int node key
+     * @param boolean should update node
+     */
+    public void setGraphNode(int key, boolean recur) {
+        this.tnode = key;
+        if (recur) {
+            Park k = this.getPark();
+            if (k != null) {
+                TouristGraph g = k.graph;
+                if (g != null) {
+                    g.setCell(key, this, false);
+                }
+            }
+        }
     }
 
     /**

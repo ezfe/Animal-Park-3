@@ -3,11 +3,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+
 /**
  * Class that holds the state of the entire park
  * 
  * @author Ezekiel Elin
- * @version September 29, 2016
+ * @version 12/6/2016
  */
 public class Park  {
     /**
@@ -50,7 +51,13 @@ public class Park  {
      * Common wheel shared by entire simulation
      */
     public Wheel wheel;
-
+    
+    /**
+     * World tourist graph
+     * Public because the graph protects everything necessary
+     */
+    public TouristGraph graph = null;
+    
     public Park(int width, int height, int tickEnergy, Wheel w) {
         this.width = width;
         this.height = height;
