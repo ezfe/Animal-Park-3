@@ -30,7 +30,7 @@ public class PropertiesFile {
      * Mountains to add
      */
     ArrayList<Mountain> mountains = new ArrayList<>();
-    
+
     public PropertiesFile(String path) {
         Scanner sc = null;
         try {
@@ -45,24 +45,30 @@ public class PropertiesFile {
                             this.width = lsc.nextInt();
                             this.height = lsc.nextInt();
                         } catch (Exception e) {
-                            System.out.println("ConfigError: Unable to load size");
+                            System.out.println("ConfigError: Unable to load size: " + e);
                         }
                     } else if (keyword.equals("light")) {
                         try {
                             this.light = lsc.nextInt();
                         } catch (Exception e) {
-                            System.out.println("ConfigError: Unable to load light");
+                            System.out.println("ConfigError: Unable to load light: " + e);
                         }
                     } else if (keyword.equals("species")) {
                         SpeciesProperties sp = new SpeciesProperties(line);
                         species.add(sp);
                     } else if (keyword.equals("mountain")) {
-                        String[] points = lsc.next().split(",");
-                        int x1 = Integer.parseInt(points[0]);
-                        int y1 = Integer.parseInt(points[1]);
-                        int x2 = Integer.parseInt(points[2]);
-                        int y2 = Integer.parseInt(points[3]);
-                        mountains.add(new Mountain(x1, y1, x2, y2));
+                        try {
+                            String[] points = lsc.next().split(",");
+                            int x1 = Integer.parseInt(points[0]);
+                            int y1 = Integer.parseInt(points[1]);
+                            int x2 = Integer.parseInt(points[2]);
+                            int y2 = Integer.parseInt(points[3]);
+                            mountains.add(new Mountain(x1, y1, x2, y2));
+                        } catch (Exception e) {
+                            System.out.println("ConfigError: Unable to load mountain: " + e);
+                        }
+                    } else if (keyword.equals("tour")) {
+                        /* TODO */
                     }
                     lsc.close();
                 }

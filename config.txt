@@ -1,1 +1,9 @@
-Hey, I'm about to go to bed and you're probably asleep but I just wanted to say something (who knows if this is a good idea even it's 3:30 AM). Anyways, unless my emotional state changes dramatically over the next few days, the hardest part for me will be our friendship. When you stop being someone's boyfriend the lines in your friendship get redrawn. The things (we) do together alone change. Because you're the one who doesn't feel like the relationship was working I'm going to look to you for those lines, if you understand what I mean. So please, if you want to hang out as friends or finish Hannibal, say so yourself because I won't. And conversely if I do anything that isn't (allowed?) please let me know. Thanks, and I hope this all makes sense and doesn't come off as too crazy 🙃 and if you are still awake, goodnight. Also I wrote this on my phone and didn't read it over so ¯\_(ツ)_/¯
+size 30 20
+light 5
+#species wheat vegetable h light 300,5,20 10.1,5.1 20 50 2
+#species banana fruit b light 100,10,25 8.9,2.5 10 45 4
+#species cow herbivore c wheat,banana 70,3,30 15.3,4.2 50 60 5
+#species wolf carnivore w cow 10,2,40 35.2,3.0 55 70 7
+#species bear omnivore g cow,banana 10,2,40 40,4.5 60 90 8
+#mountain 2,3,4,6
+#tour T 1 1 5 -5

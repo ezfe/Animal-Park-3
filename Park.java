@@ -51,13 +51,13 @@ public class Park  {
      * Common wheel shared by entire simulation
      */
     public Wheel wheel;
-    
+
     /**
      * World tourist graph
      * Public because the graph protects everything necessary
      */
     public TouristGraph graph = null;
-    
+
     public Park(int width, int height, int tickEnergy, Wheel w) {
         this.width = width;
         this.height = height;
@@ -185,6 +185,15 @@ public class Park  {
                 return p;
             }
         }
+        /* Fallback to guaruntee all spaces are checked */
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Point p = new Point(x, y);
+                if (!hasAnimal(p) && !isMountain(p)) {
+                    return p;
+                }
+            }
+        }
         return null;
     }
 
@@ -197,6 +206,38 @@ public class Park  {
             Point p = Point.randomPoint(width - 1, height - 1);
             if (!hasPlant(p) && !isMountain(p)) {
                 return p;
+            }
+        }
+        /* Fallback to guaruntee all spaces are checked */
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Point p = new Point(x, y);
+                if (!hasPlant(p) && !isMountain(p)) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Find a space in the grid for a node
+     * @return point valid point for a node
+     */
+    public Point findNodeSpace() {
+        for (int i = 0; i < width * height * 10; i += 1) {
+            Point p = Point.randomPoint(width - 1, height - 1);
+            if (getCell(p).getGraphNode() == null/* && !isMountain(p)*/) {
+                return p;
+            }
+        }
+        /* Fallback to guaruntee all spaces are checked */
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Point p = new Point(x, y);
+                if (getCell(p).getGraphNode() == null/* && !isMountain(p)*/) {
+                    return p;
+                }
             }
         }
         return null;
@@ -261,26 +302,39 @@ public class Park  {
         }
         b.append("\n");
         for (int y = 0; y < height; y += 1) {
-            b.append("|");
-            for (int x = 0; x < width; x += 1) {
-                Cell c = this.getCell(new Point(x, y));
-                if (c.isMountain()) {
-                    b.append("MT");
-                } else {
-                    if (c.getAnimal() != null) {
-                        b.append(c.getAnimal().SYMBOL);
-                    } else {
-                        b.append(" ");
-                    }
-                    if (c.getPlant() != null) {
-                        b.append(c.getPlant().SYMBOL);
-                    } else {
-                        b.append(" ");
-                    }
-                }
+            for (int s = 0; s < 2; s += 1) {
+
                 b.append("|");
+                for (int x = 0; x < width; x += 1) {
+                    Cell c = this.getCell(new Point(x, y));
+
+                    if (s == 0) {
+                        if (c.isMountain()) {
+                            b.append("MT");
+                        } else {
+                            if (c.getAnimal() != null) {
+                                b.append(c.getAnimal().SYMBOL);
+                            } else {
+                                b.append(" ");
+                            }
+                            if (c.getPlant() != null) {
+                                b.append(c.getPlant().SYMBOL);
+                            } else {
+                                b.append(" ");
+                            }
+                        }
+                    } else if (s == 1) {
+                        if (c.getGraphNode() != null) {
+                            b.append("≈");
+                        } else {
+                            b.append("_");
+                        }
+                        b.append("_");
+                    }
+                    b.append("|");
+                }
+                b.append("\n");
             }
-            b.append("\n");
         }
         for (int r = 0; r < (3*width)+1; r += 1) {
             b.append("-");
@@ -407,6 +461,27 @@ public class Park  {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Removes all nodes from cells and recreates a new configuration
+     */
+    public void rebindGraph() {
+        if (graph == null) { System.out.println("Unable to find graph for rebinding"); return; }
+        
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Point p = new Point(x, y);
+                getCell(p).removeGraphNode();
+            }
+        }
+        ArrayList<Integer> nodes = graph.nodes();
+        for (int i = 0; i < nodes.size(); i += 1) {
+            int node = nodes.get(i);
+            Point s = findNodeSpace();
+            System.out.println("Putting " + node + " at " + s);
+            getCell(s).setGraphNode(node);
         }
     }
 }

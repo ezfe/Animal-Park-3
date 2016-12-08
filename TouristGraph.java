@@ -25,14 +25,16 @@ public class TouristGraph {
         try {
             sc = new Scanner(new File(path));
             while (sc.hasNextLine()) {
-                Scanner ls = new Scanner(sc.nextLine());
+                String line = sc.nextLine();
+                Scanner ls = new Scanner(line);
                 int k1 = Integer.parseInt(ls.next());
                 ls.next();
                 int k2 = Integer.parseInt(ls.next());
-
+                int w = Integer.parseInt(ls.next());
+                
                 this.addNode(k1);
                 this.addNode(k2);
-                this.addEdge(k1, k2);
+                this.addEdge(k1, k2, w);
             }
         } catch (Exception e) {
             System.out.println("Unable to read " + path);
@@ -52,19 +54,22 @@ public class TouristGraph {
      * Edge in a directed graph
      * Referenced from both outgoing and incoming linked list (of origin and destination)
      */
-    public class Edge {
+    private class Edge {
         private Node origin;
         private Node destination;
 
+        private int weight = 1;
+        
         /**
          * Create an new edge for the graph
          * Will not add the node to the graph automatically
          * @param DirectedGraphNode<Key> origin node
          * @param DirectedGraphNode<Key> destination node
          */
-        public Edge(Node origin, Node destination) {
+        public Edge(Node origin, Node destination, int weight) {
             this.origin = origin;
             this.destination = destination;
+            this.weight = weight;
         }
 
         /**
@@ -81,6 +86,26 @@ public class TouristGraph {
          */
         public Node getDestination() {
             return this.destination;
+        }
+        
+        /**
+         * Get the other end
+         * If neither are passed, will return the destination
+         * @param int this end
+         * @return int other end
+         */
+        public Node otherEnd(Node n) {
+            if (this.destination == n) {
+                return this.origin;
+            } else return this.destination;
+        }
+        
+        /**
+         * Get the weight of this edge
+         * @return int weight
+         */
+        public int getWeight() {
+            return this.weight;
         }
     }
 
@@ -110,6 +135,25 @@ public class TouristGraph {
             return this.key;
         }
 
+        /**
+         * Set this node's cell
+         */
+        public void removeCell() {
+            this.removeCell(true);
+        }
+
+        /**
+         * Set this node's cell
+         * @param Cell cell
+         * @param boolean should update cell key
+         */
+        public void removeCell(boolean recur) {
+            if (recur && this.cell != null) {
+                this.cell.removeGraphNode(false);
+            }
+            this.cell = null;
+        }
+        
         /**
          * Set this node's cell
          * @param Cell cell
@@ -184,7 +228,7 @@ public class TouristGraph {
             Iterator<Edge> edges = edgeIterator();
             while (edges.hasNext()) {
                 Edge e = edges.next();
-                sb.append(e.destination.getKey() + ", ");
+                sb.append(e.otherEnd(this).getKey() + ", ");
             }
 
             sb.append("}");
@@ -199,7 +243,9 @@ public class TouristGraph {
      * @return boolean true when the node is added
      */
     public void addNode(int key) {
-        nodes.put(key, new Node(key));
+        if (nodes.get(key) == null) {
+            nodes.put(key, new Node(key));
+        }
     }
 
     /**
@@ -209,12 +255,12 @@ public class TouristGraph {
      * @param int weight of edge
      * @return true when edge is added
      */
-    public boolean addEdge(int key1, int key2) {
+    public boolean addEdge(int key1, int key2, int weight) {
         Node node1 = nodes.get(key1);
         Node node2 = nodes.get(key2);
 
         if (node1 != null || node2 != null) {
-            Edge edge = new Edge(node1, node2);
+            Edge edge = new Edge(node1, node2, weight);
             return node1.addEdge(edge) && node2.addEdge(edge);
         } else {
             return false;
@@ -267,16 +313,28 @@ public class TouristGraph {
     }
 
     /**
-     * Set a node's Cell
+     * Set this node's cell
      * @param Cell cell
      */
-    public void setEntranceNode(int k, Cell c) {
+    public void removeCell(int k) {
         Node n = nodes.get(k);
         if (n != null) {
-            n.setCell(c);
+            n.removeCell(true);
         }
     }
 
+    /**
+     * Set this node's cell
+     * @param Cell cell
+     * @param boolean should update cell key
+     */
+    public void removeCell(int k, boolean recur) {
+        Node n = nodes.get(k);
+        if (n != null) {
+            n.removeCell(recur);
+        }
+    }
+    
     /**
      * Set this node's cell
      * @param Cell cell

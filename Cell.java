@@ -203,7 +203,31 @@ class Cell {
         }
         this.isMountain = b;
     }
+    
+    /**
+     * Set this cell's graph node
+     */
+    public void removeGraphNode() {
+        this.removeGraphNode(true);
+    }
 
+    /**
+     * Set this cell's graph node
+     * @param boolean should update node
+     */
+    public void removeGraphNode(boolean recur) {
+        if (recur && this.tnode != null) {
+            Park k = this.getPark();
+            if (k != null) {
+                TouristGraph g = k.graph;
+                if (g != null) {
+                    g.removeCell(this.tnode, false);
+                }
+            }
+        }
+        this.tnode = null;
+    }
+    
     /**
      * Set this cell's graph node
      * @param int node key
@@ -228,6 +252,14 @@ class Cell {
                 }
             }
         }
+    }
+    
+    /**
+     * Get this cell's graph node
+     * @return int key
+     */
+    public Integer getGraphNode() {
+        return this.tnode;
     }
 
     /**
