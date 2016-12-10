@@ -430,7 +430,6 @@ class Cell {
                     if (this.person != null) {
                         this.person.advance(tickID);
                     } else if (g.isEntranceNode(this.tnode)) {
-                        System.out.println("Node: " + this.tnode + ", creating person");
                         Person p = new Person(k, g.tour(this.tnode));
                     }
                 }
