@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=park\ path
+comment0.target=Person(Park,\ java.util.ArrayList)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Person\n
+comment1.params=tickID
+comment1.target=boolean\ advance(int)
+comment1.text=\n\ Process\ this\ person\ and\ advance\n\ @return\ boolean\ did\ advance\n
+comment2.params=
+comment2.target=java.util.ArrayList\ path()
+comment2.text=\n\ Get\ path\n\ @return\ ArrayList<Integer>\ path\n
+comment3.params=
+comment3.target=java.lang.Integer\ node()
+comment3.text=\n\ Get\ current\ node\n\ @return\ int\ node\n
+numComments=4

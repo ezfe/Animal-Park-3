@@ -8,13 +8,15 @@ import java.util.ArrayList;
 public class Controller {
     public static void main(String[] args) throws InterruptedException {
 
-        String configPath = "/Users/ezekielelin/Library/Mobile Documents/com~apple~CloudDocs/Developer/Lafayette/CS150/AnimalPark 3/config.txt"; 
-        //String configPath = args[0];
+        //String configPath = "/Users/ezekielelin/Library/Mobile Documents/com~apple~CloudDocs/Developer/Lafayette/CS150/AnimalPark 3/config.txt"; 
+        String configPath = args[0];
 
-        String graphPath = "/Users/ezekielelin/Library/Mobile Documents/com~apple~CloudDocs/Developer/Lafayette/CS150/AnimalPark 3/graph.txt";
+        //String graphPath = "/Users/ezekielelin/Library/Mobile Documents/com~apple~CloudDocs/Developer/Lafayette/CS150/AnimalPark 3/graph.txt";
 
-        int steps = -1;
-        //int steps = Integer.parseInt(args[1]);
+        String graphPath = args[1];
+        
+        //int steps = -1;
+        int steps = Integer.parseInt(args[2]);
 
         PropertiesFile config = new PropertiesFile(configPath);
 

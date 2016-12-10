@@ -1,6 +1,6 @@
 Animal Park - Ezekiel Elin - October 15, 2016
 
-The project contains 12 classes, which serve the following purpose, in approx. order of importance
+The project contains 17 classes, which serve the following purpose, in approx. order of importance
 
 Controller: contains main() and populates the park based on the config file
 
@@ -11,6 +11,12 @@ Cell: holds a plant, an animal, both, or neither
 Organism: abstract class for plants/animals
 
 Plant/Animal: classes to be instantiated into park
+
+Person: person that wanders the park
+
+TouristGraph: Graph that overlays the park
+
+Mountain: Represents a mountain range for loading onto the park
 
 PropertiesFile: represents the data in the config.txt
 
