@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Undirected Graph of a set of Nodes
@@ -31,7 +32,7 @@ public class TouristGraph {
                 ls.next();
                 int k2 = Integer.parseInt(ls.next());
                 int w = Integer.parseInt(ls.next());
-                
+
                 this.addNode(k1);
                 this.addNode(k2);
                 this.addEdge(k1, k2, w);
@@ -59,7 +60,7 @@ public class TouristGraph {
         private Node destination;
 
         private int weight = 1;
-        
+
         /**
          * Create an new edge for the graph
          * Will not add the node to the graph automatically
@@ -87,7 +88,7 @@ public class TouristGraph {
         public Node getDestination() {
             return this.destination;
         }
-        
+
         /**
          * Get the other end
          * If neither are passed, will return the destination
@@ -99,7 +100,7 @@ public class TouristGraph {
                 return this.origin;
             } else return this.destination;
         }
-        
+
         /**
          * Get the weight of this edge
          * @return int weight
@@ -153,7 +154,7 @@ public class TouristGraph {
             }
             this.cell = null;
         }
-        
+
         /**
          * Set this node's cell
          * @param Cell cell
@@ -334,7 +335,7 @@ public class TouristGraph {
             n.removeCell(recur);
         }
     }
-    
+
     /**
      * Set this node's cell
      * @param Cell cell
@@ -369,5 +370,100 @@ public class TouristGraph {
         }
 
         return builder.toString();
+    }
+
+    public ArrayList<Integer> fastestTour(int node) {
+        Node start = nodes.get(node);
+        if (start == null) return null;
+
+        ArrayList<Integer> newTBV = (ArrayList<Integer>)this.nodes().clone();
+        newTBV.remove((Object)start.getKey());
+
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        path.add(start.getKey());
+
+        ArrayList<Integer> fpath = TSP(newTBV, path, 0, start,"");
+        System.out.println("Distance: " + length(fpath));
+        return fpath;
+    }
+
+    /**
+     * Calculate the length of a path
+     * @param ArrayList<Integer> path
+     * @return int length
+     */
+    public int length(ArrayList<Integer> nodes) {
+        int score = 0;
+        for (int i = 0; i < nodes.size() - 1; i += 1) {
+            int thisScore = Integer.MAX_VALUE;
+            Node n1 = this.nodes.get(nodes.get(i));
+            Node n2 = this.nodes.get(nodes.get(i + 1));
+            if (n1 == null || n2 == null) {System.out.println("ERROR NODE NOT FOUND: " + n1 + n2); continue; }
+            Iterator<Edge> iterator = n1.edgeIterator();
+            while (iterator.hasNext()) {
+                Edge e = iterator.next();
+                if (e.otherEnd(n1) == n2) {
+                    if (thisScore > e.getWeight()) {
+                        thisScore = e.getWeight();
+                    }
+                }
+            }
+            score += thisScore;
+        }
+        return score;
+    }
+
+    public class PathComparator implements Comparator<ArrayList<Integer>> {
+        @Override
+        public int compare(ArrayList<Integer> l1, ArrayList<Integer> l2) {
+            Integer l1Length = length(l1);
+            Integer l2Length = length(l2);
+            return l1Length.compareTo(l2Length);
+        }
+    }
+
+    private ArrayList<Integer> TSP(ArrayList<Integer> toBeVisited, ArrayList<Integer> currentPath, int weight, Node vertex, String indent) {
+        /*
+        System.out.println(indent + "Starting iteration at " + vertex);
+        System.out.println(indent + "To be visited: " + toBeVisited);
+        System.out.println(indent + "Current Path: " + currentPath);
+        */
+        PriorityQueue<ArrayList<Integer>> queue = new PriorityQueue<>(new PathComparator());
+        boolean extend = false;
+        Iterator<Edge> iterator = vertex.edgeIterator();
+        
+        if (toBeVisited.size() == 0) {
+            return currentPath;
+        }
+        
+        while (iterator.hasNext()) {
+            Edge e = iterator.next();
+            Node v = e.otherEnd(vertex);
+            if (toBeVisited.contains(v.getKey())) {
+                ArrayList<Integer> newTBV = (ArrayList<Integer>)toBeVisited.clone();
+                newTBV.remove((Object)v.getKey());
+
+                ArrayList<Integer> newCP = (ArrayList<Integer>)currentPath.clone();
+                newCP.add(v.getKey());
+
+                //System.out.println(indent + "Calling TSP from node " + vertex + " to node " + v);
+                ArrayList<Integer> a = TSP(newTBV, newCP, weight + e.getWeight(), v, indent);// + "\t");
+                if (a != null) {
+                    //System.out.println(indent + "Result Inserted");
+                    queue.add(a);
+                } else {
+                    //System.out.println(indent + "Null Received");
+                }
+                extend = true;
+            }
+        }
+        //System.out.println(indent + "Ending iteration at " + vertex);
+        if (!extend && toBeVisited.size() > 0) {
+            return null;
+        } else {
+            //System.out.println(indent + "Found option: " + currentPath);
+            //System.out.println(indent + "Queue: " + queue);
+            return queue.poll();
+        }
     }
 }

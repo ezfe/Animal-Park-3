@@ -53,9 +53,10 @@ public class Controller {
 
         park.rebindGraph();
 
+        System.out.println(park.graph.fastestTour(1));
+        
         Scanner controller = new Scanner(System.in);
         printControls();
-        System.out.print("Command: ");
         while (controller.hasNext()) {
             String command = controller.next();
             if (command.toLowerCase().equals("p")) {
@@ -89,7 +90,24 @@ public class Controller {
                 if (t.equals("cell")) {
                     Cell c = park.getCell(p);
                     if (c.hasAnimal()) {
-                        System.out.println("Animal: \n\t" + c.getAnimal().toString());
+                        System.out.println("Animal: " + c.getAnimal().toString());
+                    } else {
+                        System.out.println("Animal: None");
+                    }
+                    
+                    
+                    if (c.hasPlant()) {
+                        System.out.println(" Plant: " + c.getPlant().toString());
+                    } else {
+                        System.out.println(" Plant: None");
+                    }
+                    
+                    if (c.isMountain()) {
+                        System.out.println("Mountain");
+                    }
+                    
+                    if (c.getGraphNode() != null) {
+                        System.out.println("Graph node " + c.getGraphNode());
                     }
                 } else {
                     System.out.println("Please enter a valid analysis type");
@@ -102,7 +120,9 @@ public class Controller {
     }
 
     public static void printControls() {
+        System.out.println("---");
         System.out.println("\tp: map\n\tc: tick & delta report\n\ti: continue to end\n\tr: print report");
         System.out.println("\tm: print & tick on loop\n\tq: <cell> <x>,<y>: examine data");
+        System.out.print("Command: ");
     }
 }
