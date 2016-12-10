@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class PlantTest {
 
-    SpeciesProperties prop = new SpeciesProperties("species wheat vegetable h light 300,5,20 10.1,5.1 30 50 2");
+    SpeciesProperties prop = new SpeciesProperties("species wheat vegetable h light 100,5,20 20.1,18 10 1000 0 0 2 0");
     Plant plant;
     
     /**

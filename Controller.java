@@ -139,8 +139,8 @@ public class Controller {
 
     public static void printControls() {
         System.out.println("---");
-        System.out.println("\tp: map\n\tc: tick & delta report\n\ti: continue to end\n\tr: print report");
-        System.out.println("\tm: print & tick on loop\n\tq: <cell> <x>,<y>: examine data");
+        System.out.println("p: map, c: tick & delta report i: continue to end r: print report");
+        //System.out.println("\tm: print & tick on loop\n\tq: <cell> <x>,<y>: examine data");
         System.out.print("Command: ");
     }
 }

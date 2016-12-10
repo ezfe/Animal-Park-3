@@ -1,5 +1,3 @@
-
-
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -13,8 +11,8 @@ import org.junit.Test;
  */
 public class ParkTest {
     Park park;
-    SpeciesProperties plantprop = new SpeciesProperties("species wheat vegetable h light 300,5,20 10.1,5.1 30 50 2");
-    SpeciesProperties animalprop = new SpeciesProperties("species cow herbivore c light 300,5,20 10.1,5.1 30 50 2");
+    SpeciesProperties plantprop = new SpeciesProperties("species wheat vegetable h light 100,5,20 20.1,18 10 1000 0 0 2 0");
+    SpeciesProperties animalprop = new SpeciesProperties("species cow herbivore c wheat,banana 70,3,30 40.3,38 8 70 1 0 1 1");
     /**
      * Sets up the test fixture.
      *
@@ -95,6 +93,6 @@ public class ParkTest {
         
         Point p2 = park.findAnimalSpace();
         
-        assertTrue(!p.equals(pl2));
+        assertTrue(!p.equals(p2));
     }
 }

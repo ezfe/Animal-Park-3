@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class AnimalTest {
 
-    SpeciesProperties prop = new SpeciesProperties("species cow herbivore c light 300,5,20 10.1,5.1 30 50 2");
+    SpeciesProperties prop = new SpeciesProperties("species cow herbivore c wheat,banana 70,3,30 40.3,38 8 70 1 0 1 1");
     Animal plant;
     
     /**
