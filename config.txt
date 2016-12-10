@@ -7,4 +7,4 @@ species banana fruit b light 180,5,20 20.1,5.1 10 50 0 0 2 0
 species wolf carnivore w cow 10,2,40 35.2,3.0 55 70 5 5 7 10
 species bear omnivore g cow,banana 10,2,40 40,4.5 60 90 5 5 8 10
 mountain 2,3,4,6
-#tour T 1 1 5 -5
+tour T 1,2,3 5 1

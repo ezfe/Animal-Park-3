@@ -20,6 +20,11 @@ class Cell {
     private Integer tnode = null;
 
     /**
+     * Key of the Person that is @ this cell
+     */
+    private Person person = null;
+
+    /**
      * Location of this cell
      */
     private Point location;
@@ -203,7 +208,7 @@ class Cell {
         }
         this.isMountain = b;
     }
-    
+
     /**
      * Set this cell's graph node
      */
@@ -226,8 +231,9 @@ class Cell {
             }
         }
         this.tnode = null;
+        this.person = null;
     }
-    
+
     /**
      * Set this cell's graph node
      * @param int node key
@@ -253,13 +259,34 @@ class Cell {
             }
         }
     }
-    
+
     /**
      * Get this cell's graph node
      * @return int key
      */
     public Integer getGraphNode() {
         return this.tnode;
+    }
+
+    /**
+     * Get this node's person
+     * @return Person person
+     */
+    public Person getPerson() {
+        return this.person;
+    }
+
+    /**
+     * Set this node's person
+     * @param Person person
+     */
+    public boolean setPerson(Person p) {
+        if (this.tnode == null) {
+            return false;
+        } else {
+            this.person = p;
+            return true;
+        }
     }
 
     /**
@@ -387,12 +414,47 @@ class Cell {
     /**
      * Tick the cell
      */
-    public void tick() {
+    public void tick(int tickID) {
         if (this.animal != null) {
-            animal.tick();
+            animal.tick(tickID);
         }
         if (this.plant != null) {
-            plant.tick();
+            plant.tick(tickID);
+        }
+
+        if (this.tnode != null) {
+            Park k = this.getPark();
+            if (k != null) {
+                TouristGraph g = k.graph;
+                if (g != null) {
+                    if (this.person != null) {
+                        this.person.advance(tickID);
+                    } else if (g.isEntranceNode(this.tnode)) {
+                        System.out.println("Node: " + this.tnode + ", creating person");
+                        Person p = new Person(k, g.tour(this.tnode));
+                    }
+                }
+            }
+
+            int range = park.tourRadius + 1;
+            int decrease = park.tourEnergyDecrease;
+
+            for(int i = getLocation().x - range + 1; i < getLocation().x + range; i++) {
+                if (i >= 0 && i < this.getPark().width) {
+                    for(int j = getLocation().y - range + 1; j < getLocation().y + range; j++) {
+                        if (j >= 0 && j < this.getPark().height) {
+                            Animal a = this.getPark().getAnimal(new Point(i, j));
+                            if (a != null) {
+                                a.removeEnergy(decrease);
+                            }
+                            Plant p = this.getPark().getPlant(new Point(i, j));
+                            if (p != null) {
+                                p.removeEnergy(decrease);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

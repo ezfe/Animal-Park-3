@@ -219,7 +219,7 @@ public abstract class Organism {
     /**
      * Tick the organism
      */
-    public void tick() {
+    public void tick(int tickID) {
         this.tickCount += 1;
         
         /*

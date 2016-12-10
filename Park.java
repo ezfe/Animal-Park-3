@@ -46,7 +46,7 @@ public class Park  {
      * Total number of times tick() has been called
      */
     private int tickCount = 0;
-
+    
     /**
      * Common wheel shared by entire simulation
      */
@@ -58,11 +58,18 @@ public class Park  {
      */
     public TouristGraph graph = null;
 
-    public Park(int width, int height, int tickEnergy, Wheel w) {
+    public final String tourSymbol;
+    public final int tourRadius;
+    public final int tourEnergyDecrease;
+    
+    public Park(int width, int height, int tickEnergy, Wheel w, String s, int tr, int ted) {
         this.width = width;
         this.height = height;
         this.tickEnergy = tickEnergy;
         this.wheel = w;
+        this.tourSymbol = s;
+        this.tourRadius = tr;
+        this.tourEnergyDecrease = ted;
     }
 
     /**
@@ -242,18 +249,18 @@ public class Park  {
         }
         return null;
     }
-
+    
     /**
      * Tick the entire board
      */
-    public void tick() {
+    public void tick(int tickID) {
         this.clearEventLog();
 
         this.tickCount += 1;
         for (int x = 0; x < width; x += 1) {
             for (int y = 0; y < height; y += 1) {
                 Cell c = this.getCell(new Point(x, y));
-                if (c != null) c.tick();
+                if (c != null) c.tick(tickID);
             }
         }
         if (this.eventLog.size() == 0) {
@@ -310,7 +317,7 @@ public class Park  {
 
                     if (s == 0) {
                         if (c.isMountain()) {
-                            b.append("MT");
+                            b.append("XX");
                         } else {
                             if (c.getAnimal() != null) {
                                 b.append(c.getAnimal().SYMBOL);
@@ -325,11 +332,15 @@ public class Park  {
                         }
                     } else if (s == 1) {
                         if (c.getGraphNode() != null) {
+                            b.append(tourSymbol);
+                        } else {
+                            b.append("_");
+                        }
+                        if (c.getPerson() != null) {
                             b.append("≈");
                         } else {
                             b.append("_");
                         }
-                        b.append("_");
                     }
                     b.append("|");
                 }

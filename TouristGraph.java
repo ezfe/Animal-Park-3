@@ -119,6 +119,8 @@ public class TouristGraph {
         private boolean entrance = false;
         private LinkedList<Edge> edges = new LinkedList<>();
 
+        private ArrayList<Integer> tour = null;
+
         /**
          * Create a new node for the graph
          * Will not add the node to the graph automatically
@@ -212,6 +214,23 @@ public class TouristGraph {
                 return false;
             }
         }
+
+        /**
+         * Get tour
+         * @return ArrayList<Integer> tour
+         */
+        public ArrayList<Integer> getTour() {
+            return this.tour;
+        }
+        
+        /**
+         * Set tour
+         * @param ArrayList<Integer> tour
+         */
+        public void setTour(ArrayList<Integer> tour) {
+            this.tour = tour;
+        }
+
 
         /**
          * Fetch outgoing iterator
@@ -312,6 +331,19 @@ public class TouristGraph {
             n.setEntranceNode(e);
         }
     }
+    
+    /**
+     * Is a node an entrance node
+     * @param int key
+     * @return boolean entrance node
+     */
+    public boolean isEntranceNode(int k) {
+        Node n = nodes.get(k);
+        if (n != null) {
+            return n.isEntranceNode();
+        }
+        return false;
+    }
 
     /**
      * Set this node's cell
@@ -358,6 +390,18 @@ public class TouristGraph {
             n.setCell(c, recur);
         }
     }
+    
+    /**
+     * Get this node's cell
+     * @param int node key
+     */
+    public Cell getCell(int k) {
+        Node n = nodes.get(k);
+        if (n != null) {
+            return n.getCell();
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
@@ -382,9 +426,7 @@ public class TouristGraph {
         ArrayList<Integer> path = new ArrayList<Integer>();
         path.add(start.getKey());
 
-        ArrayList<Integer> fpath = TSP(newTBV, path, 0, start,"");
-        System.out.println("Distance: " + length(fpath));
-        return fpath;
+        return TSP(newTBV, path, 0, start,"");
     }
 
     /**
@@ -413,6 +455,23 @@ public class TouristGraph {
         return score;
     }
 
+    /**
+     * Get tour for a node
+     * @param int node key
+     * @return ArrayList<Integer> tour
+     */
+    public ArrayList<Integer> tour(int k) {
+        Node start = nodes.get(k);
+        if (start == null) return null;
+
+        ArrayList<Integer> tour = start.getTour();
+        if (tour == null) {
+            tour = fastestTour(k);
+            start.setTour(tour);
+        }
+        return tour;
+    }
+
     public class PathComparator implements Comparator<ArrayList<Integer>> {
         @Override
         public int compare(ArrayList<Integer> l1, ArrayList<Integer> l2) {
@@ -427,15 +486,15 @@ public class TouristGraph {
         System.out.println(indent + "Starting iteration at " + vertex);
         System.out.println(indent + "To be visited: " + toBeVisited);
         System.out.println(indent + "Current Path: " + currentPath);
-        */
+         */
         PriorityQueue<ArrayList<Integer>> queue = new PriorityQueue<>(new PathComparator());
         boolean extend = false;
         Iterator<Edge> iterator = vertex.edgeIterator();
-        
+
         if (toBeVisited.size() == 0) {
             return currentPath;
         }
-        
+
         while (iterator.hasNext()) {
             Edge e = iterator.next();
             Node v = e.otherEnd(vertex);

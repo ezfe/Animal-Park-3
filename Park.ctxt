@@ -1,6 +1,6 @@
 #BlueJ class context
-comment0.params=width\ height\ tickEnergy\ w
-comment0.target=Park(int,\ int,\ int,\ Wheel)
+comment0.params=width\ height\ tickEnergy\ w\ s\ tr\ ted
+comment0.target=Park(int,\ int,\ int,\ Wheel,\ java.lang.String,\ int,\ int)
 comment1.params=key
 comment1.target=boolean\ validPoint(Point)
 comment1.text=\n\ Check\ whether\ the\ passed\ point\ is\ within\ the\ bounds\ of\ the\ grid\n\ @param\ key\ point\ to\ check\n\ @return\ boolean\ whether\ or\ not\ the\ point\ is\ valid\n
@@ -13,8 +13,8 @@ comment11.text=\n\ Find\ a\ space\ in\ the\ grid\ for\ a\ plant\n\ @return\ poin
 comment12.params=
 comment12.target=Point\ findNodeSpace()
 comment12.text=\n\ Find\ a\ space\ in\ the\ grid\ for\ a\ node\n\ @return\ point\ valid\ point\ for\ a\ node\n
-comment13.params=
-comment13.target=void\ tick()
+comment13.params=tickID
+comment13.target=void\ tick(int)
 comment13.text=\n\ Tick\ the\ entire\ board\n
 comment14.params=species
 comment14.target=void\ logDeath(java.lang.String)

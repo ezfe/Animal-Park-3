@@ -22,7 +22,7 @@ public class ParkTest {
      */
     @Before
     public void setUp() {
-        park = new Park(20, 20, 5, new Wheel(10));
+        park = new Park(20, 20, 5, new Wheel(10), "T", 0, 0);
     }
     
     @Test

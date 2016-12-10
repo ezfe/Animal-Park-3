@@ -21,7 +21,7 @@ public class CellTest {
      */
     @Before
     public void setUp() {
-        park = new Park(20, 20, 5, new Wheel(10));
+        park = new Park(20, 20, 5, new Wheel(10), "T", 0, 0);
         Plant plant = new Plant(plantprop, new Wheel(10));
         park.setPlant(new Point(5, 5), plant);
         cell = plant.getCell();

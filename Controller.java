@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * @author Ezekiel Elin
@@ -20,7 +21,7 @@ public class Controller {
         /* SET SEED HERE */
         Wheel wheel = new Wheel(5);
 
-        Park park = new Park(config.width, config.height, config.light, wheel);
+        Park park = new Park(config.width, config.height, config.light, wheel, config.tourSymbol, config.tourRadius, config.tourEnergyDecrease);
 
         park.graph = new TouristGraph(graphPath);
 
@@ -53,8 +54,18 @@ public class Controller {
 
         park.rebindGraph();
 
-        System.out.println(park.graph.fastestTour(1));
-        
+        /* Mark Starting Nodes */
+        ArrayList<Integer> startingNodes = config.tourNodeSet;
+        for (Integer n: startingNodes) {
+            park.graph.setEntranceNode(n, true);
+        }
+
+        /* Print out their tours */
+        ArrayList<Integer> nodes = park.graph.entranceNodes();
+        for (Integer n: nodes) {
+            System.out.println(park.graph.tour(n));
+        }
+
         Scanner controller = new Scanner(System.in);
         printControls();
         while (controller.hasNext()) {
@@ -62,12 +73,12 @@ public class Controller {
             if (command.toLowerCase().equals("p")) {
                 System.out.println(park.mapString());
             } else if (command.toLowerCase().equals("c")) {
-                park.tick();
+                park.tick(wheel.spin(10000));
                 System.out.println(park.deltaSummaryString());
             } else if (command.toLowerCase().equals("i")) {
                 System.out.println("Processing...");
                 while (!park.ended(steps)) {
-                    park.tick();
+                    park.tick(wheel.spin(10000));
                 }
                 System.out.println("Finished simulation...");
             } else if (command.toLowerCase().equals("r")) {
@@ -75,12 +86,12 @@ public class Controller {
             } else if (command.toLowerCase().equals("a")) {
                 int next = Integer.parseInt(controller.next());
                 for (int i = 0; i < next; i += 1) {
-                    park.tick();
+                    park.tick(wheel.spin(10000));
                 }
             } else if (command.toLowerCase().equals("m")) {
                 while (true) {
                     System.out.println(park.mapString());
-                    park.tick();
+                    park.tick(wheel.spin(10000));
                     Thread.sleep(250);
                 }
             } else if (command.toLowerCase().equals("q")) {
@@ -88,26 +99,33 @@ public class Controller {
                 String[] point = controller.next().split(",");
                 Point p = new Point(Integer.parseInt(point[0]), Integer.parseInt(point[1]));
                 if (t.equals("cell")) {
-                    Cell c = park.getCell(p);
-                    if (c.hasAnimal()) {
-                        System.out.println("Animal: " + c.getAnimal().toString());
+                    if (park.validPoint(p)) {
+                        Cell c = park.getCell(p);
+                        if (c.hasAnimal()) {
+                            System.out.println("Animal: " + c.getAnimal().toString());
+                        } else {
+                            System.out.println("Animal: None");
+                        }
+
+                        if (c.hasPlant()) {
+                            System.out.println(" Plant: " + c.getPlant().toString());
+                        } else {
+                            System.out.println(" Plant: None");
+                        }
+
+                        if (c.isMountain()) {
+                            System.out.println("Mountain");
+                        }
+
+                        if (c.getGraphNode() != null) {
+                            System.out.println("Graph node " + c.getGraphNode());
+                        }
+
+                        if (c.getPerson() != null) {
+                            System.out.println("Person " + c.getPerson().path() + " @@ " + c.getPerson().node());
+                        }
                     } else {
-                        System.out.println("Animal: None");
-                    }
-                    
-                    
-                    if (c.hasPlant()) {
-                        System.out.println(" Plant: " + c.getPlant().toString());
-                    } else {
-                        System.out.println(" Plant: None");
-                    }
-                    
-                    if (c.isMountain()) {
-                        System.out.println("Mountain");
-                    }
-                    
-                    if (c.getGraphNode() != null) {
-                        System.out.println("Graph node " + c.getGraphNode());
+                        System.out.println("Invalid location");
                     }
                 } else {
                     System.out.println("Please enter a valid analysis type");

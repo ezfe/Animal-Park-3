@@ -31,6 +31,11 @@ public class PropertiesFile {
      */
     ArrayList<Mountain> mountains = new ArrayList<>();
 
+    String tourSymbol = "T";
+    int tourRadius = 0;
+    int tourEnergyDecrease = 0;
+    ArrayList<Integer> tourNodeSet = new ArrayList<>();
+    
     public PropertiesFile(String path) {
         Scanner sc = null;
         try {
@@ -68,7 +73,13 @@ public class PropertiesFile {
                             System.out.println("ConfigError: Unable to load mountain: " + e);
                         }
                     } else if (keyword.equals("tour")) {
-                        /* TODO */
+                        tourSymbol = lsc.next();
+                        String[] nodes = lsc.next().split(",");
+                        for(int i = 0; i < nodes.length; i += 1) {
+                            tourNodeSet.add(Integer.parseInt(nodes[i]));
+                        }
+                        tourRadius = Integer.parseInt(lsc.next());
+                        tourEnergyDecrease = Integer.parseInt(lsc.next());
                     }
                     lsc.close();
                 }
